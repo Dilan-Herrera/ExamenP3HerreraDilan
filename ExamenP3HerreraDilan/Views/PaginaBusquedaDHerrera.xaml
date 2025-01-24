@@ -1,0 +1,30 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ExamenP3HerreraDilan.ViewModels"
+             x:Class="ExamenP3HerreraDilan.Views.PaginaBusquedaDHerrera">
+
+    <ContentPage.BindingContext>
+        <vm:BusquedaViewModelDHerrera />
+    </ContentPage.BindingContext>
+
+    <StackLayout Padding="20">
+        <Entry Placeholder="Buscar aeropuerto" Text="{Binding SearchText}" />
+        <Button Text="Buscar" Command="{Binding BuscarAeropuertoCommand}" CommandParameter="{Binding Text}" />
+        <Button Text="Limpiar" Command="{Binding LimpiarCommand}" />
+
+        <CollectionView ItemsSource="{Binding Aeropuertos}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10">
+                        <Label Text="{Binding Name}" FontAttributes="Bold" />
+                        <Label Text="{Binding Country}" />
+                        <Label Text="Latitud: {Binding Location.Latitude}" />
+                        <Label Text="Longitud: {Binding Location.Longitude}" />
+                        <Label Text="Email: {Binding ContactInfo.Email}" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+
+</ContentPage>

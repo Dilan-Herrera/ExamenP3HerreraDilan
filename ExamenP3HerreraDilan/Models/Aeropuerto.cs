@@ -1,26 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
-namespace ExamenP3HerreraDilan.Models
+namespace ExamenP3HerreraDilan.Models;
+
+public class Aeropuerto
 {
-    public class Aeropuerto
-    {
-        public string Pais { get; set; }
-        public Ubicacion Ubicacion { get; set; }
-        public Contacto Contacto { get; set; }
-    }
+    [JsonProperty("name")]
+    public string Name { get; set; }
 
-    public class Ubicacion
-    {
-        public double Latitud { get; set; }
-        public double Longitud { get; set; }
-    }
+    [JsonProperty("country")]
+    public string Country { get; set; }
 
-    public class Contacto
-    {
-        public string Correo { get; set; }
-    }
+    [JsonProperty("location")]
+    public Location Location { get; set; }
+
+    [JsonProperty("contact_info")]
+    public ContactInfo ContactInfo { get; set; }
+}
+
+public class Location
+{
+    [JsonProperty("latitude")]
+    public double Latitude { get; set; }
+
+    [JsonProperty("longitude")]
+    public double Longitude { get; set; }
+}
+
+public class ContactInfo
+{
+    [JsonProperty("email")]
+    public string Email { get; set; }
 }

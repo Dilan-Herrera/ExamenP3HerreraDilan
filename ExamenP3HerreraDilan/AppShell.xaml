@@ -10,6 +10,7 @@
 
     <TabBar>
         <ShellContent Title="Buscar Aeropuerto" ContentTemplate="{DataTemplate views:PaginaBusquedaDHerrera}" />
+        <ShellContent Title="Historial de Aeropuertos" ContentTemplate="{DataTemplate views:HistorialDHerrera}" />
     </TabBar>
 
 </Shell>

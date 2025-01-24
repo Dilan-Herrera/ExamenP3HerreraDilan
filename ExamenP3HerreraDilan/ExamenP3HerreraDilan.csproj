@@ -66,6 +66,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\HistorialDHerrera.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\PaginaBusquedaDHerrera.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

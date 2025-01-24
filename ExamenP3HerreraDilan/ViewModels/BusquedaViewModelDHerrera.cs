@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Http;
-using System.Threading.Tasks;
 using ExamenP3HerreraDilan.Models;
 using Newtonsoft.Json;
 
@@ -30,63 +28,42 @@ public class BusquedaViewModelDHerrera : INotifyPropertyChanged
             }
         }
     }
-
-
-    public Command<string> BuscarAeropuertoCommand => new Command<string>(async (name) => await BuscarAeropuerto(name));
-    public Command LimpiarCommand => new Command(() => Aeropuertos.Clear());
-
-    public async Task BuscarAeropuerto(string name)
+    public Command BuscarAeropuertoCommand => new Command(async () => await BuscarAeropuerto());
+    public Command LimpiarCommand => new Command(() =>
     {
-        if (string.IsNullOrWhiteSpace(name))
+        Aeropuertos.Clear();
+        SearchText = string.Empty;
+    });
+
+
+    public async Task BuscarAeropuerto()
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
         {
-            await App.Current.MainPage.DisplayAlert("Error", "Por favor, ingresa el nombre del aeropuerto.", "OK");
+            await App.Current.MainPage.DisplayAlert("Error", "Por favor, ingrese el nombre del aeropuerto", "OK");
             return;
         }
 
         try
         {
-            Console.WriteLine($"Buscando aeropuerto: {name}"); 
+            var response = await client.GetAsync($"https://freetestapi.com/api/v1/airports?search={Uri.EscapeDataString(SearchText)}");
 
-            var response = await client.GetAsync($"https://freetestapi.com/api/v1/airports?search={Uri.EscapeDataString(name)}");
+            var json = await response.Content.ReadAsStringAsync();
 
-            Console.WriteLine($"Respuesta de API: {response.StatusCode}");
-
-            if (response.IsSuccessStatusCode)
+            var aeropuertos = JsonConvert.DeserializeObject<List<Aeropuerto>>(json);
+            if (aeropuertos != null && aeropuertos.Count > 0)
             {
-                var json = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"Respuesta JSON: {json}");
-
-                if (!string.IsNullOrEmpty(json))
-                {
-                    var aeropuertos = JsonConvert.DeserializeObject<List<Aeropuerto>>(json);
-                    if (aeropuertos != null && aeropuertos.Count > 0)
-                    {
-                        Aeropuertos.Clear();
-                        foreach (var aeropuerto in aeropuertos)
-                        {
-                            Aeropuertos.Add(aeropuerto);
-                        }
-                    }
-                    else
-                    {
-                        await App.Current.MainPage.DisplayAlert("Sin resultados", "No se encontraron aeropuertos.", "OK");
-                    }
-                }
-                else
-                {
-                    await App.Current.MainPage.DisplayAlert("Error", "Respuesta vacía de la API.", "OK");
-                }
+                Aeropuertos.Clear();
+                Aeropuertos.Add(aeropuertos[0]);
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("Error", $"No se pudo conectar con la API. Código: {response.StatusCode}", "OK");
+                await App.Current.MainPage.DisplayAlert("Sin resultados", "No se encontraron aeropuertos", "OK");
             }
         }
         catch (Exception ex)
         {
-            await App.Current.MainPage.DisplayAlert("Error", $"Algo salió mal: {ex.Message}", "OK");
+            await App.Current.MainPage.DisplayAlert("Error", $"Algo salio mal: {ex.Message}", "OK");
         }
     }
-
-
 }

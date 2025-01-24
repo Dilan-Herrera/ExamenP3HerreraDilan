@@ -1,30 +1,97 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:ExamenP3HerreraDilan.ViewModels"
-             x:Class="ExamenP3HerreraDilan.Views.PaginaBusquedaDHerrera">
+             x:Class="ExamenP3HerreraDilan.Views.PaginaBusquedaDHerrera"
+             BackgroundColor="#1B5E20">
 
     <ContentPage.BindingContext>
         <vm:BusquedaViewModelDHerrera />
     </ContentPage.BindingContext>
 
-    <StackLayout Padding="20">
-        <Entry Placeholder="Buscar aeropuerto" Text="{Binding SearchText}" />
-        <Button Text="Buscar" Command="{Binding BuscarAeropuertoCommand}" CommandParameter="{Binding Text}" />
-        <Button Text="Limpiar" Command="{Binding LimpiarCommand}" />
+    <StackLayout Padding="20" Spacing="15">
 
-        <CollectionView ItemsSource="{Binding Aeropuertos}">
+        <Entry x:Name="dherrera_entryBusqueda"
+               Placeholder="Buscar aeropuerto"
+               Text="{Binding SearchText}"
+               BackgroundColor="White"
+               TextColor="Black"
+               PlaceholderColor="Gray"
+               FontSize="18"
+               Margin="0,0,0,10"/>
+
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Button x:Name="dherrera_btnBuscar"
+                    Text="Buscar"
+                    Command="{Binding BuscarAeropuertoCommand}"
+                    BackgroundColor="#FF9800"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    Padding="10"/>
+
+            <Button x:Name="dherrera_btnLimpiar"
+                    Text="Limpiar"
+                    Command="{Binding LimpiarCommand}"
+                    BackgroundColor="#FF9800"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    Padding="10"/>
+        </StackLayout>
+
+        <CollectionView x:Name="dherrera_listaAeropuertos"
+                        ItemsSource="{Binding Aeropuertos}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Padding="10">
-                        <Label Text="{Binding Name}" FontAttributes="Bold" />
-                        <Label Text="{Binding Country}" />
-                        <Label Text="Latitud: {Binding Location.Latitude}" />
-                        <Label Text="Longitud: {Binding Location.Longitude}" />
-                        <Label Text="Email: {Binding ContactInfo.Email}" />
-                    </StackLayout>
+                    <Frame BackgroundColor="White"
+                           CornerRadius="10"
+                           Padding="15"
+                           Margin="0,5"
+                           BorderColor="#FF9800">
+                        <StackLayout>
+
+                            <Label x:Name="dherrera_labelNombre"
+                                   Text="{Binding Name}"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="Black" />
+
+                            <Label x:Name="dherrera_labelPais"
+                                   Text="Pais"
+                                   FontAttributes="Bold"
+                                   TextColor="#FF9800"/>
+                            <Label x:Name="dherrera_txtPais"
+                                   Text="{Binding Country}"
+                                   TextColor="Black"/>
+
+                            <Label x:Name="dherrera_labelLatitud"
+                                   Text="Latitud"
+                                   FontAttributes="Bold"
+                                   TextColor="#FF9800"/>
+                            <Label x:Name="dherrera_txtLatitud"
+                                   Text="{Binding Location.Latitude}"
+                                   TextColor="Black"/>
+
+                            <Label x:Name="dherrera_labelLongitud"
+                                   Text="Longitud"
+                                   FontAttributes="Bold"
+                                   TextColor="#FF9800"/>
+                            <Label x:Name="dherrera_txtLongitud"
+                                   Text="{Binding Location.Longitude}"
+                                   TextColor="Black"/>
+
+                            <Label x:Name="dherrera_labelEmail"
+                                   Text="E-mail"
+                                   FontAttributes="Bold"
+                                   TextColor="#FF9800"/>
+                            <Label x:Name="dherrera_txtEmail"
+                                   Text="{Binding ContactInfo.Email}"
+                                   TextColor="Black"/>
+                        </StackLayout>
+                    </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </StackLayout>
 
+    </StackLayout>
 </ContentPage>
